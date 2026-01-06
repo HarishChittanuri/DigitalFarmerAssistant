@@ -3,10 +3,10 @@
 
 const config = {
     // Groq API Configuration
-    GROQ_API_KEY: '',
+    GROQ_API_KEY: '', // Set this in your environment or localStorage
 
     // Firebase Configuration
-    FIREBASE_API_KEY: 'AIzaSyAUbvBj9VM0Xys2u6_NUDFwR1JnuU7n7fs',
+    FIREBASE_API_KEY: '', // Set this in your environment or localStorage
     FIREBASE_AUTH_DOMAIN: 'digital-farmer-assistant.firebaseapp.com',
     FIREBASE_PROJECT_ID: 'digital-farmer-assistant',
     FIREBASE_STORAGE_BUCKET: 'digital-farmer-assistant.firebasestorage.app',
