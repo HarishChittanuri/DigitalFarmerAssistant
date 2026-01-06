@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Matching - Digital Farmer Assistant</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/farmer-dashboard.css">
+</head>
+<body class="bg-green-50 min-h-screen">
+  <nav class="dashboard-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <span class="nav-icon">🤝</span>
+        <span class="nav-title">My Matching</span>
+      </div>
+      <div class="nav-actions">
+        <a href="farmer-dashboard.html" class="back-btn">← Back to Dashboard</a>
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="dashboard-main">
+    <section class="quick-actions">
+      <div class="actions-container">
+        <div class="section-header">
+          <h1 class="section-title">My Workforce Connections</h1>
+          <p class="section-description">Your confirmed labor matches</p>
+        </div>
+        
+        <div id="matching-list" class="matching-list">
+          <div class="empty-state">
+            <div class="empty-icon">🤝</div>
+            <h3 class="empty-title">Loading Matches...</h3>
+            <p class="empty-description">Fetching your workforce connections.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./js/farmerDashboard.js"></script>
+</body>
+</html>

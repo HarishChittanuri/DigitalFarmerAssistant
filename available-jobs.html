@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Available Jobs - Digital Farmer Assistant</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/labor-dashboard.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <!-- Add Bootstrap CSS for modal functionality -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-orange-50 min-h-screen">
+  <!-- Navigation Header -->
+  <nav class="dashboard-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <span class="nav-icon">🔍</span>
+        <span class="nav-title">Available Jobs</span>
+      </div>
+      <div class="nav-actions">
+        <a href="labor-dashboard.html" class="back-btn">← Back to Dashboard</a>
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <section class="quick-actions">
+      <div class="actions-container">
+        <div class="section-header">
+          <h1 class="section-title">Available Agricultural Jobs</h1>
+          <p class="section-description">Browse and apply for work opportunities posted by farmers</p>
+        </div>
+
+        <!-- Simplified Filters Section -->
+        <div class="filters-section mb-6">
+            <div class="filter-header">
+                <h3 class="filter-title">Filter Jobs</h3>
+                <p class="filter-subtitle">Find jobs that match your preferences</p>
+            </div>
+            
+            <div class="filter-controls">
+                <!-- Location Filter -->
+                <div class="filter-group">
+                    <label for="locationFilter" class="filter-label">Location Contains:</label>
+                    <input type="text" id="locationFilter" class="filter-input" placeholder="e.g., Pune, Mumbai">
+                    <div class="filter-help">Type any location name</div>
+                </div>
+                
+                <!-- Skills Filter -->
+                <div class="filter-group">
+                    <label for="skillsFilter" class="filter-label">Skills:</label>
+                    <select id="skillsFilter" class="filter-select">
+                        <option value="all">All Skills</option>
+                        <option value="plowing">Plowing</option>
+                        <option value="harvesting">Harvesting</option>
+                        <option value="irrigation">Irrigation</option>
+                        <option value="planting">Planting</option>
+                        <option value="sowing">Sowing</option>
+                        <option value="organic">Organic Farming</option>
+                        <option value="machinery">Farm Machinery</option>
+                    </select>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="filter-actions">
+                    <button id="applyFilters" class="filter-btn primary">Apply Filters</button>
+                    <button id="resetFilters" class="filter-btn secondary">Reset</button>
+                </div>
+            </div>
+            
+            <!-- Active Filters Display -->
+            <div id="activeFilters" class="active-filters hidden">
+                <span class="active-filters-label">Active Filters:</span>
+                <div id="activeFiltersList"></div>
+            </div>
+        </div>
+
+        <!-- Jobs List -->
+        <div id="jobsList" class="jobs-list">
+          <div class="empty-state">
+            <div class="empty-icon">🔍</div>
+            <h3 class="empty-title">Loading Available Jobs...</h3>
+            <p class="empty-description">Searching for agricultural work opportunities in your area.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./js/job-filters.js"></script>
+  <script src="./js/smart-matching.js"></script>
+  <script type="module" src="./js/laborDashboard.js"></script>
+
+  <!-- Enhanced Apply Job Modal -->
+  <div class="modal fade" id="applyModal" tabindex="-1" aria-labelledby="applyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title" id="applyModalLabel">
+            <i class="fas fa-edit me-2"></i>Apply for Job
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Job Summary -->
+          <div class="job-summary-card bg-light-green p-3 rounded mb-4">
+            <h6 class="fw-bold text-success mb-2">
+              <i class="fas fa-info-circle me-2"></i>Job Details
+            </h6>
+            <div class="row">
+              <div class="col-md-6">
+                <p class="mb-1"><strong>Position:</strong> <span id="modalJobTitle" class="text-dark">Loading...</span></p>
+                <p class="mb-1"><strong>Farmer:</strong> <span id="modalFarmerName" class="text-dark">Loading...</span></p>
+                <p class="mb-1"><strong>Location:</strong> <span id="modalJobLocation" class="text-dark">Loading...</span></p>
+              </div>
+              <div class="col-md-6">
+                <p class="mb-1"><strong>Wages:</strong> <span id="modalJobWages" class="text-dark">Loading...</span></p>
+                <p class="mb-1"><strong>Duration:</strong> <span id="modalJobDuration" class="text-dark">Loading...</span></p>
+                <p class="mb-1"><strong>Start Date:</strong> <span id="modalJobStart" class="text-dark">Loading...</span></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Application Form -->
+          <form id="applyForm">
+            <input type="hidden" id="applyJobId">
+
+            <div class="row">
+              <!-- Personal Information -->
+              <div class="col-md-6">
+                <h6 class="fw-bold text-success mb-3">
+                  <i class="fas fa-user me-2"></i>Personal Information
+                </h6>
+
+                <div class="mb-3">
+                  <label for="laborName" class="form-label fw-semibold">Full Name <span class="text-danger">*</span></label>
+                  <input type="text" id="laborName" class="form-control" placeholder="Enter your full name" required>
+                  <div class="form-text">Your name as you'd like to be addressed</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="contact" class="form-label fw-semibold">Contact Number <span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <span class="input-group-text">+91</span>
+                    <input type="tel" id="contact" class="form-control" placeholder="9876543210" pattern="[0-9]{10}" required>
+                  </div>
+                  <div class="form-text">10-digit mobile number</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="email" class="form-label fw-semibold">Email Address</label>
+                  <input type="email" id="email" class="form-control" placeholder="your.email@example.com">
+                  <div class="form-text">Optional - for important updates</div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="age" class="form-label fw-semibold">Age</label>
+                  <input type="number" id="age" class="form-control" placeholder="25" min="18" max="70">
+                </div>
+              </div>
+
+              <!-- Work Details -->
+              <div class="col-md-6">
+                <h6 class="fw-bold text-success mb-3">
+                  <i class="fas fa-briefcase me-2"></i>Work Details
+                </h6>
+
+                <div class="mb-3">
+                  <label for="experience" class="form-label fw-semibold">Years of Farming Experience <span class="text-danger">*</span></label>
+                  <select id="experience" class="form-select" required>
+                    <option value="">Select experience</option>
+                    <option value="0-1">Less than 1 year</option>
+                    <option value="1-3">1-3 years</option>
+                    <option value="3-5">3-5 years</option>
+                    <option value="5-10">5-10 years</option>
+                    <option value="10+">More than 10 years</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-semibold">Specialized Skills</label>
+                  <div class="skills-checkbox">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="plowing" id="skillPlowing">
+                      <label class="form-check-label" for="skillPlowing">Plowing & Tilling</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="sowing" id="skillSowing">
+                      <label class="form-check-label" for="skillSowing">Sowing & Planting</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="harvesting" id="skillHarvesting">
+                      <label class="form-check-label" for="skillHarvesting">Harvesting</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="irrigation" id="skillIrrigation">
+                      <label class="form-check-label" for="skillIrrigation">Irrigation</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="organic" id="skillOrganic">
+                      <label class="form-check-label" for="skillOrganic">Organic Farming</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="machinery" id="skillMachinery">
+                      <label class="form-check-label" for="skillMachinery">Farm Machinery</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="availableFrom" class="form-label fw-semibold">Available From Date <span class="text-danger">*</span></label>
+                  <input type="date" id="availableFrom" class="form-control" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Additional Information -->
+            <div class="row">
+              <div class="col-12">
+                <h6 class="fw-bold text-success mb-3">
+                  <i class="fas fa-file-alt me-2"></i>Additional Information
+                </h6>
+
+                <div class="mb-3">
+                  <label for="interestReason" class="form-label fw-semibold">Why are you interested in this job?</label>
+                  <textarea id="interestReason" class="form-control" rows="2" placeholder="Tell the farmer why you're interested in this specific job..."></textarea>
+                </div>
+
+                <div class="mb-3">
+                  <label for="previousExperience" class="form-label fw-semibold">Previous Work Experience</label>
+                  <textarea id="previousExperience" class="form-control" rows="2" placeholder="Describe your previous farming experience and achievements..."></textarea>
+                </div>
+
+                <div class="mb-3">
+                  <label for="note" class="form-label fw-semibold">Additional Notes (Optional)</label>
+                  <textarea id="note" class="form-control" rows="2" placeholder="Any additional information you'd like to share with the farmer..."></textarea>
+                </div>
+
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="termsAgreement" required>
+                  <label class="form-check-label" for="termsAgreement">
+                    I confirm that the information provided is accurate and I agree to be contacted for this job opportunity.
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="modal-footer border-0 pt-4">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <i class="fas fa-times me-2"></i>Cancel
+              </button>
+              <button type="submit" class="btn btn-success">
+                <i class="fas fa-paper-plane me-2"></i>Submit Application
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Success Toast -->
+  <div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          <i class="fas fa-check-circle me-2"></i>
+          Application submitted successfully!
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <div style="position: fixed; bottom: 10px; left: 10px; z-index: 1000;">
+    <button onclick="debugFilterSystem()" style="background: #666; color: white; padding: 8px; border: none; border-radius: 5px; font-size: 12px;">
+        Debug Filters
+    </button>
+</div>
+
+<script>
+function debugFilterSystem() {
+    console.log("🔍 DEBUG FILTER SYSTEM:");
+    console.log("Job Filters:", window.jobFilters);
+    console.log("Current jobs:", window.jobFilters?.currentJobs);
+    console.log("Active filters:", window.jobFilters?.filters);
+    console.log("Match scores:", window.jobFilters?.matchScores);
+    
+    // Test filter application
+    if (window.jobFilters) {
+        window.jobFilters.applyFilters();
+    }
+}
+</script>
+
+  <style>
+    .bg-light-green {
+      background-color: #f0f9f0;
+      border-left: 4px solid #28a745;
+    }
+    .skills-checkbox {
+      max-height: 150px;
+      overflow-y: auto;
+      border: 1px solid #dee2e6;
+      border-radius: 0.375rem;
+      padding: 10px;
+      background-color: white;
+    }
+    .form-check {
+      margin-bottom: 8px;
+    }
+    .modal-header {
+      border-bottom: 2px solid #198754;
+    }
+    .form-label {
+      color: #495057;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #28a745;
+      box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    }
+    /* Ensure proper modal backdrop */
+    .modal-backdrop {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  </style>
+</body>
+</html>

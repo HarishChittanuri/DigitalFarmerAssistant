@@ -1,0 +1,107 @@
+/*
+  Digital Farmer Assistant - Custom CSS for Agricultural Theme
+  Inspired by the reference image's dark green, earthy, and fresh look.
+*/
+
+/* 1. Global & Font Setup */
+body {
+    font-family: 'Poppins', sans-serif; /* Applied in HTML, ensuring fallback */
+}
+
+/* 2. Color Palette & Theming */
+:root {
+    --color-primary-green: #1D6F42; /* A deep, rich agricultural green */
+    --color-secondary-yellow: #FFC300; /* A bright, harvest-like yellow */
+    --color-dark-green: #0A3D1E; /* Very dark green for footers/accents */
+    --color-light-green: #E8F5E9; /* Light green for subtle backgrounds */
+}
+
+/* 3. Navigation Bar Styling */
+.custom-nav {
+    background-color: var(--color-dark-green); /* Deep green background */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+}
+
+/* FIX: Ensure all links inside the nav bar are white for visibility */
+.custom-nav a {
+    color: white !important; /* Force white text for clarity */
+    transition: color 0.3s ease; /* Smooth hover transition */
+}
+
+.custom-nav a:hover {
+    color: var(--color-secondary-yellow) !important; /* Change to bright yellow on hover */
+}
+
+/* The special Login button needs its original styling to be dark on yellow */
+.custom-nav a.bg-yellow-500 {
+    color: var(--color-dark-green) !important; 
+    /* This overrides the above 'white' for the login button specifically */
+}
+
+.logo-icon {
+    /* Subtle animation or style for the logo */
+    animation: pulse-grow 3s infinite;
+}
+
+/* 4. Hero Section Styling */
+.custom-hero-bg {
+    /* Use a gradient and a pattern/texture for a rich, deep look like the reference image */
+    background: 
+        linear-gradient(135deg, rgba(29, 111, 66, 0.85) 0%, rgba(10, 61, 30, 0.95) 100%),
+        url('https://images.unsplash.com/photo-1542456578-1b60d0e6c535') no-repeat center center; /* Replace with your own dark, abstract foliage/soil pattern image */
+    background-size: cover;
+    /* Optional: Add a subtle overlay for texture */
+    position: relative;
+}
+.custom-hero-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 100% 100%, rgba(255,255,255,0.05) 1%, transparent 60%);
+    z-index: 0;
+}
+
+/* 5. Call-to-Action Buttons (Login) */
+.farmer-cta {
+    background-color: var(--color-secondary-yellow);
+    color: var(--color-dark-green);
+    border: 2px solid var(--color-secondary-yellow);
+}
+.farmer-cta:hover {
+    background-color: #FACC15; /* Tailwind yellow-400 */
+    transform: translateY(-2px);
+}
+
+.labor-cta {
+    background-color: transparent;
+    color: var(--color-secondary-yellow);
+    border: 2px solid var(--color-secondary-yellow);
+}
+.labor-cta:hover {
+    background-color: var(--color-secondary-yellow);
+    color: var(--color-dark-green);
+    transform: translateY(-2px);
+}
+
+/* 6. Hero Image Placeholder Style (Guide to use real image) */
+.custom-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-align: center;
+    border-radius: 1rem;
+    padding: 2rem;
+    backdrop-filter: blur(5px); /* Soft blur effect */
+}
+
+/* Keyframe Animation for Logo */
+@keyframes pulse-grow {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}

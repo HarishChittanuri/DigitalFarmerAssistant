@@ -1,0 +1,1096 @@
+/* css/weather-widget.css */
+.weather-widget {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid #e5e7eb;
+    margin-bottom: 2rem;
+}
+
+.weather-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #e8f5e8;
+    padding-bottom: 0.75rem;
+}
+
+.weather-header h3 {
+    color: #2d5016;
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.refresh-btn {
+    background: #e8f5e8;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background 0.3s ease;
+}
+
+.refresh-btn:hover {
+    background: #d4edda;
+}
+
+/* Current Weather */
+.current-weather {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f8fff8;
+    border-radius: 8px;
+}
+
+.current-main {
+    text-align: center;
+}
+
+.temp {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #2d5016;
+    line-height: 1;
+}
+
+.description {
+    font-size: 1.1rem;
+    color: #4a5568;
+    margin: 0.5rem 0;
+}
+
+.location {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.current-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.detail-item span:first-child {
+    color: #6b7280;
+}
+
+.detail-item span:last-child {
+    font-weight: 600;
+    color: #2d5016;
+}
+
+/* Forecast */
+.weather-forecast {
+    margin-bottom: 1.5rem;
+}
+
+.weather-forecast h4 {
+    color: #2d5016;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.forecast-days {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 0.75rem;
+}
+
+.forecast-day {
+    text-align: center;
+    padding: 0.75rem;
+    background: #f8fff8;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.day-name {
+    font-weight: 600;
+    color: #2d5016;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.day-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.day-temp {
+    font-weight: bold;
+    color: #2d5016;
+    font-size: 1.1rem;
+}
+
+.day-desc {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+/* Farming Suggestions */
+.farming-suggestions {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.farming-suggestions h4 {
+    color: #856404;
+    margin: 0 0 0.75rem 0;
+    font-size: 1.1rem;
+}
+
+.farming-suggestions ul {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+.farming-suggestions li {
+    color: #856404;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.farming-suggestions li:last-child {
+    margin-bottom: 0;
+}
+
+/* Location Input */
+.location-input {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.location-input input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.location-input button {
+    background: #2d5016;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.location-input button:hover {
+    background: #1f3a0f;
+}
+
+/* Loading State */
+.weather-widget.loading {
+    text-align: center;
+    padding: 3rem 1.5rem;
+}
+
+.loading-spinner {
+    border: 3px solid #f3f4f6;
+    border-top: 3px solid #2d5016;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Error State */
+.weather-widget.error {
+    text-align: center;
+    padding: 2rem 1.5rem;
+}
+
+.error-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.weather-widget.error button {
+    background: #2d5016;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+/* Location Input Form */
+.location-input-form {
+    text-align: center;
+    padding: 2rem;
+}
+
+.location-input-form h3 {
+    color: #2d5016;
+    margin-bottom: 0.5rem;
+}
+
+.location-input-form p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+.input-group {
+    display: flex;
+    gap: 0.5rem;
+    max-width: 400px;
+    margin: 0 auto 1rem;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.input-group button {
+    background: #2d5016;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.input-group button:hover {
+    background: #1f3a0f;
+}
+
+.help-text {
+    font-size: 0.9rem;
+    color: #9ca3af;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .current-weather {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .forecast-days {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .input-group {
+        flex-direction: column;
+    }
+    
+    .temp {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .weather-widget {
+        padding: 1rem;
+    }
+    
+    .forecast-days {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Add these to your existing weather-widget.css */
+
+/* Location Options */
+.location-options {
+    text-align: center;
+    padding: 2rem 1.5rem;
+}
+
+.options-description {
+    color: #6b7280;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+
+.location-options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.location-option {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.location-option:hover {
+    border-color: #2d5016;
+    background: #f8fff8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.option-icon {
+    font-size: 2rem;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.option-content {
+    flex: 1;
+}
+
+.option-content h4 {
+    color: #2d5016;
+    margin: 0 0 0.25rem 0;
+    font-size: 1.1rem;
+}
+
+.option-content p {
+    color: #6b7280;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.option-arrow {
+    color: #9ca3af;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.privacy-note {
+    font-size: 0.8rem;
+    color: #9ca3af;
+    margin: 1rem 0 0 0;
+}
+
+/* Manual Input Form */
+.manual-input-form {
+    padding: 1.5rem;
+}
+
+.manual-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #6b7280;
+    margin-right: 0.5rem;
+    padding: 0.5rem;
+}
+
+.back-btn:hover {
+    color: #2d5016;
+}
+
+.manual-header h3 {
+    margin: 0;
+    color: #2d5016;
+}
+
+.input-section {
+    margin: 1.5rem 0;
+}
+
+.suggestions {
+    background: #f8fff8;
+    border: 1px solid #e8f5e8;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1.5rem;
+}
+
+.suggestions h4 {
+    color: #2d5016;
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+}
+
+.suggestions ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.suggestions li {
+    margin-bottom: 0.25rem;
+}
+
+/* Active Weather State */
+.weather-widget.active {
+    padding: 1.5rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.location-btn, .refresh-btn {
+    background: #e8f5e8;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+.location-btn:hover, .refresh-btn:hover {
+    background: #d4edda;
+}
+
+.location .accuracy {
+    font-size: 0.8rem;
+    color: #6b7280;
+    font-style: italic;
+}
+
+.change-location {
+    text-align: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.change-location-btn {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    color: #6b7280;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.change-location-btn:hover {
+    background: #e9ecef;
+    color: #2d5016;
+}
+
+/* Error States */
+.error-actions {
+    margin-top: 1rem;
+}
+
+.error-actions button {
+    background: #2d5016;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .location-option {
+        padding: 1rem;
+    }
+    
+    .option-icon {
+        font-size: 1.5rem;
+        margin-right: 0.75rem;
+    }
+}
+
+/* Add these to your existing weather-widget.css */
+
+/* Enhanced Location Options */
+.option-badge {
+    background: #2d5016;
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    display: inline-block;
+}
+
+.troubleshoot-tips {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    text-align: left;
+}
+
+.troubleshoot-tips h4 {
+    color: #856404;
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.troubleshoot-tips ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    color: #856404;
+    font-size: 0.8rem;
+}
+
+.troubleshoot-tips li {
+    margin-bottom: 0.25rem;
+}
+
+/* Popular Locations */
+.popular-locations {
+    margin: 1.5rem 0;
+}
+
+.popular-locations h4 {
+    color: #2d5016;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.location-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.location-chip {
+    background: #e8f5e8;
+    border: 1px solid #2d5016;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #2d5016;
+}
+
+.location-chip:hover {
+    background: #2d5016;
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Enhanced Error States */
+.detailed-error {
+    text-align: left;
+    padding: 2rem;
+}
+
+.detailed-error h4 {
+    color: #dc2626;
+    margin: 1rem 0 0.5rem 0;
+}
+
+.detailed-error .error-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+}
+
+.detailed-error .error-actions button {
+    background: #6b7280;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    flex: 1;
+    min-width: 120px;
+}
+
+.detailed-error .error-actions .primary-btn {
+    background: #2d5016;
+    flex: 2;
+}
+
+.detailed-error .troubleshoot-tips {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    margin: 1rem 0 0 0;
+}
+
+.detailed-error .troubleshoot-tips h5 {
+    color: #374151;
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.detailed-error .troubleshoot-tips ul {
+    color: #6b7280;
+}
+
+/* Input enhancements */
+.input-group input:focus {
+    border-color: #2d5016;
+    box-shadow: 0 0 0 2px rgba(45, 80, 22, 0.1);
+    outline: none;
+}
+
+/* Accuracy indicators */
+.location .accuracy {
+    font-size: 0.7rem;
+    color: #6b7280;
+    font-style: italic;
+    display: block;
+    margin-top: 0.25rem;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .detailed-error .error-actions {
+        flex-direction: column;
+    }
+    
+    .detailed-error .error-actions button {
+        flex: none;
+    }
+    
+    .location-chips {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .location-option {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+    
+    .option-icon {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+    
+    .option-arrow {
+        display: none;
+    }
+}
+
+/* Add these to your existing weather-widget.css */
+
+/* Fast Loading Styles */
+.fast-loading {
+    text-align: center;
+    padding: 2rem;
+}
+
+.loading-message {
+    font-size: 1.1rem;
+    color: #2d5016;
+    margin: 1rem 0 0.5rem 0;
+}
+
+.loading-submessage {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin: 0 0 1.5rem 0;
+}
+
+.loading-actions {
+    margin-top: 1.5rem;
+}
+
+.skip-button {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    color: #6b7280;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.skip-button:hover {
+    background: #e5e7eb;
+    color: #2d5016;
+}
+
+/* Instant Manual Input */
+.manual-input-form.instant {
+    padding: 1.5rem;
+}
+
+.instant-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.instant-header h3 {
+    color: #2d5016;
+    margin: 0 0 0.25rem 0;
+    font-size: 1.3rem;
+}
+
+.instant-subtitle {
+    color: #6b7280;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.instant-message {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 6px;
+    padding: 0.75rem;
+    color: #0369a1;
+    margin: 1rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.instant-input-section {
+    margin: 1.5rem 0;
+}
+
+.instant-input {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.instant-input input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 2px solid #2d5016;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.instant-input input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
+}
+
+.instant-search-btn {
+    background: #2d5016;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    white-space: nowrap;
+}
+
+.instant-search-btn:hover {
+    background: #1f3a0f;
+}
+
+/* Popular Locations Instant */
+.popular-locations-instant {
+    margin: 2rem 0 1.5rem 0;
+}
+
+.popular-locations-instant h4 {
+    color: #2d5016;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.location-chips-instant {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.location-chip-instant {
+    background: #e8f5e8;
+    border: 2px solid #2d5016;
+    border-radius: 20px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #2d5016;
+    font-weight: 500;
+}
+
+.location-chip-instant:hover {
+    background: #2d5016;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(45, 80, 22, 0.3);
+}
+
+/* Instant Actions */
+.instant-actions {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.back-option {
+    background: none;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    color: #6b7280;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.back-option:hover {
+    background: #f3f4f6;
+    color: #2d5016;
+}
+
+/* Quick Tips */
+.quick-tips {
+    background: #f8fff8;
+    border: 1px solid #e8f5e8;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1.5rem 0;
+}
+
+.quick-tips h4 {
+    color: #2d5016;
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.quick-tips ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    color: #6b7280;
+    font-size: 0.8rem;
+}
+
+.quick-tips li {
+    margin-bottom: 0.25rem;
+}
+
+.quick-tips strong {
+    color: #2d5016;
+}
+
+/* Instant Weather Display */
+.instant-weather {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Quick Error Message */
+.quick-error-message {
+    animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+    .instant-input {
+        flex-direction: column;
+    }
+    
+    .location-chips-instant {
+        gap: 0.4rem;
+    }
+    
+    .location-chip-instant {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .manual-input-form.instant {
+        padding: 1rem;
+    }
+    
+    .instant-header h3 {
+        font-size: 1.1rem;
+    }
+}
+
+
+/* Crop Recommendations Styles */
+.crop-recommendations {
+    margin-top: 15px;
+    padding: 15px;
+    background: linear-gradient(135deg, #f0f9f0 0%, #e6f7e6 100%);
+    border-radius: 12px;
+    border: 1px solid #bbf7d0;
+}
+
+.crop-recommendations h4 {
+    color: #065f46;
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+.crop-subtitle {
+    color: #6b7280;
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+}
+
+.crop-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.crop-card {
+    background: white;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-left: 4px solid #d1fae5;
+}
+
+.crop-card.crop-excellent {
+    border-left-color: #10b981;
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+}
+
+.crop-card.crop-good {
+    border-left-color: #f59e0b;
+    background: linear-gradient(135deg, #ffffff 0%, #fffbeb 100%);
+}
+
+.crop-card.crop-fair {
+    border-left-color: #6b7280;
+    background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+}
+
+.crop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.crop-name {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 0.9rem;
+}
+
+.crop-confidence {
+    background: #dcfce7;
+    color: #166534;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.crop-details {
+    font-size: 0.8rem;
+}
+
+.crop-reason {
+    color: #4b5563;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.crop-meta {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.crop-duration, .crop-water {
+    font-size: 0.75rem;
+    color: #6b7280;
+    background: #f3f4f6;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.crop-tips {
+    margin-top: 8px;
+}
+
+.crop-tips strong {
+    color: #374151;
+    font-size: 0.75rem;
+}
+
+.crop-tip {
+    color: #6b7280;
+    font-size: 0.7rem;
+    margin-top: 4px;
+    line-height: 1.3;
+}
+
+.crop-footer {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.crop-footer small {
+    color: #9ca3af;
+    font-size: 0.7rem;
+}

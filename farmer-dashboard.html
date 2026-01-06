@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Farmer Dashboard - Digital Farmer Assistant</title>
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  /* Much darker background for maximum visibility */
+  .farmer-dashboard-bg {
+    background: 
+      linear-gradient(135deg, rgba(240, 242, 239, 0.55) 0%, rgba(232, 245, 232, 0.65) 100%),
+      url('https://images.pexels.com/photos/7130505/pexels-photo-7130505.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+  }
+
+  /* Solid white cards */
+  .neu-card, .neu-inset, .action-card {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  }
+
+  /* Strong neumorphism shadows */
+  .neu-card {
+    box-shadow: 
+      12px 12px 24px rgba(0, 0, 0, 0.2),
+      -12px -12px 24px rgba(255, 255, 255, 0.9),
+      0 0 0 1px rgba(255, 255, 255, 0.4);
+  }
+
+  .neu-inset {
+    box-shadow: 
+      inset 10px 10px 20px rgba(0, 0, 0, 0.15),
+      inset -10px -10px 20px rgba(255, 255, 255, 0.8);
+  }
+
+  .action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+      18px 18px 36px rgba(0, 0, 0, 0.25),
+      -18px -18px 36px rgba(255, 255, 255, 1),
+      0 0 0 1px rgba(255, 255, 255, 0.5);
+  }
+
+  /* Solid white navigation */
+  .dashboard-nav {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Solid white chatbot */
+  .chatbot-widget {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Enhanced text visibility */
+  .card-title, h1, h2, h3, h4 {
+    color: var(--primary-color) !important;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.9);
+  }
+
+  body {
+    color: var(--secondary-color);
+    font-weight: 500; /* Slightly bolder text */
+  }
+</style>
+  <style>
+    :root {
+      /* --- REFINED COLOR PALETTE --- */
+      --bg-color: #f0f2ef; /* Warmer, earthy off-white */
+      --primary-color: #166534; /* Dark Green */
+      --secondary-color: #5a677d; /* Softer Gray */
+      --accent-color: #f59e0b; /* Golden Yellow */
+      --accent-dark-color: #b45309; /* Golden Brown for text */
+      --shadow-dark: #d1d9e6;
+      --shadow-light: #ffffff;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      font-family: 'Poppins', sans-serif;
+      color: var(--secondary-color);
+    }
+
+    /* Base Neumorphism Styles */
+    .neu-card {
+      background-color: var(--bg-color);
+      border-radius: 20px;
+      box-shadow: 7px 7px 14px var(--shadow-dark), -7px -7px 14px var(--shadow-light);
+    }
+    
+    .neu-inset {
+      background-color: var(--bg-color);
+      border-radius: 20px;
+      box-shadow: inset 7px 7px 14px var(--shadow-dark), inset -7px -7px 14px var(--shadow-light);
+    }
+
+    .neu-button {
+      background-color: var(--bg-color);
+      border-radius: 12px;
+      border: none;
+      color: var(--primary-color);
+      font-weight: 600;
+      box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
+      transition: all 0.2s ease-in-out;
+    }
+
+    .neu-button:hover {
+      box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+    }
+
+    .neu-button:active, .neu-button-active {
+      box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+    }
+
+    .neu-input {
+      background-color: var(--bg-color);
+      border-radius: 12px;
+      border: none;
+      box-shadow: inset 5px 5px 8px var(--shadow-dark), inset -5px -5px 8px var(--shadow-light);
+      color: var(--secondary-color);
+      transition: all 0.2s ease-in-out;
+    }
+
+    .neu-input:focus {
+      outline: none;
+      box-shadow: inset 2px 2px 4px var(--shadow-dark), inset -2px -2px 4px var(--shadow-light);
+    }
+
+    /* Component Specific Styling */
+    .dashboard-nav {
+      background-color: var(--bg-color);
+      box-shadow: 7px 7px 14px var(--shadow-dark);
+      padding: 1rem 2rem;
+    }
+
+    .action-card {
+      background-color: var(--bg-color);
+      border-radius: 20px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 7px 7px 14px var(--shadow-dark), -7px -7px 14px var(--shadow-light);
+      color: var(--secondary-color);
+      text-decoration: none;
+    }
+    .action-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+    }
+     .action-card:active {
+        box-shadow: inset 7px 7px 14px var(--shadow-dark), inset -7px -7px 14px var(--shadow-light);
+        transform: translateY(0);
+    }
+
+    .card-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-top: 1rem;
+    }
+    .card-icon {
+      font-size: 2.5rem;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      box-shadow: inset 5px 5px 10px var(--shadow-dark), inset -5px -5px 10px var(--shadow-light);
+    }
+    .card-description {
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+      min-height: 42px; /* Set a min-height to align cards */
+    }
+    .card-badge {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background-color: var(--accent-color);
+        color: white;
+        box-shadow: 3px 3px 6px var(--shadow-dark);
+    }
+
+    .chatbot-launcher {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+        z-index: 1000;
+    }
+    .chatbot-widget {
+        position: fixed;
+        bottom: 7rem;
+        right: 2rem;
+        width: 350px;
+        z-index: 1000;
+        border-radius: 20px;
+        overflow: hidden;
+        display: none; /* Initially hidden */
+    }
+    .chatbot-header {
+      padding: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--primary-color);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen farmer-dashboard-bg">
+  <!-- Navigation Header -->
+  <nav class="dashboard-nav sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-3">
+        <span class="text-3xl">🚜</span>
+        <span class="text-xl font-bold" style="color: var(--primary-color);">Farmer Dashboard</span>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="text-md">
+          Welcome, <span id="farmer-name" class="font-semibold">Farmer</span>!
+        </div>
+        <button id="logoutBtn" class="neu-button px-4 py-2 text-sm">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Dashboard -->
+  <main class="max-w-7xl mx-auto p-4 md:p-8">
+    
+    <!-- Hero Section -->
+    <section class="neu-inset p-8 md:p-12 text-center mb-8">
+      <h1 class="text-3xl md:text-4xl font-bold" style="color: var(--primary-color);">Manage Your Farm Workforce</h1>
+      <p class="mt-2 text-lg">Post jobs, review applications, and connect with reliable agricultural laborers.</p>
+    </section>
+
+    <!-- Weather Widget Section -->
+    <section class="mb-8">
+      <!-- NOTE: Your weatherWidget.js will need to be updated to populate this new structure. -->
+      <div id="weatherWidget" class="neu-card p-6">
+        <div class="weather-content">
+          <!-- Top Section: Current Weather -->
+          <div class="flex justify-between items-center mb-4">
+              <div>
+                  <h3 class="text-xl font-bold" style="color: var(--primary-color);">Moinabad, Telangana</h3>
+                  <p class="text-sm">Wednesday, 2:47 PM</p>
+              </div>
+              <div class="flex items-center space-x-4">
+                  <span class="text-5xl">⛅️</span> <!-- Weather Icon -->
+                  <div>
+                      <p class="text-4xl font-bold" style="color: var(--primary-color);">29°C</p>
+                      <p class="text-sm text-right">Partly Cloudy</p>
+                  </div>
+              </div>
+          </div>
+  
+          <!-- Middle Section: Details -->
+          <div class="neu-inset rounded-lg p-4 flex justify-around text-center text-sm mb-6">
+              <div>
+                  <p class="font-semibold">Feels Like</p>
+                  <p class="font-bold mt-1" style="color: var(--accent-dark-color);">32°C</p>
+              </div>
+              <div>
+                  <p class="font-semibold">Humidity</p>
+                  <p class="font-bold mt-1" style="color: var(--accent-dark-color);">65%</p>
+              </div>
+              <div>
+                  <p class="font-semibold">Wind</p>
+                  <p class="font-bold mt-1" style="color: var(--accent-dark-color);">10 km/h</p>
+              </div>
+          </div>
+  
+          <!-- Bottom Section: Forecast -->
+          <div>
+              <h4 class="text-lg font-bold mb-4 text-center" style="color: var(--primary-color);">3-Day Forecast</h4>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                  <!-- Day 1 -->
+                  <div class="neu-card p-3">
+                      <p class="font-semibold">Thu</p>
+                      <p class="text-3xl my-1">☀️</p>
+                      <p class="font-bold" style="color: var(--accent-dark-color);">31°/22°</p>
+                  </div>
+                  <!-- Day 2 -->
+                  <div class="neu-card p-3">
+                      <p class="font-semibold">Fri</p>
+                      <p class="text-3xl my-1">🌦️</p>
+                      <p class="font-bold" style="color: var(--accent-dark-color);">29°/21°</p>
+                  </div>
+                  <!-- Day 3 -->
+                  <div class="neu-card p-3">
+                      <p class="font-semibold">Sat</p>
+                      <p class="text-3xl my-1">⛈️</p>
+                      <p class="font-bold" style="color: var(--accent-dark-color);">28°/20°</p>
+                  </div>
+                  <!-- Day 4 -->
+                  <div class="neu-card p-3">
+                      <p class="font-semibold">Sun</p>
+                      <p class="text-3xl my-1">🌤️</p>
+                      <p class="font-bold" style="color: var(--accent-dark-color);">30°/22°</p>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section>
+      <h2 class="text-2xl font-bold mb-6 text-center" style="color: var(--primary-color);">What would you like to do today?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <a href="post-job.html" class="action-card">
+          <div class="card-icon">📝</div>
+          <h3 class="card-title">Post a Job</h3>
+          <p class="card-description">Create new job listings for agricultural laborers</p>
+          <div class="card-badge">Create New</div>
+        </a>
+        <a href="my-posts.html" class="action-card">
+          <div class="card-icon">📋</div>
+          <h3 class="card-title">My Posts</h3>
+          <p class="card-description">View and manage all your job posts</p>
+          <div class="card-badge">Manage Jobs</div>
+        </a>
+        <a href="job-applications.html" class="action-card">
+          <div class="card-icon">📬</div>
+          <h3 class="card-title">Job Applications</h3>
+          <p class="card-description">Review laborers who applied to your jobs</p>
+          <div class="card-badge">View Requests</div>
+        </a>
+        <a href="farmer-matching.html" class="action-card">
+          <div class="card-icon">🤝</div>
+          <h3 class="card-title">My Matching</h3>
+          <p class="card-description">View your confirmed workforce connections</p>
+          <div class="card-badge">Connections</div>
+        </a>
+        <a href="crop-recommendations.html" class="action-card">
+          <div class="card-icon">🌾</div>
+          <h3 class="card-title">AI Crop Recommendations</h3>
+          <p class="card-description">Get intelligent crop suggestions based on weather and AI analysis</p>
+          <div class="card-badge">AI Powered</div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+<!-- Chatbot -->
+<button class="chatbot-launcher neu-button" onclick="toggleChatbot()">🤖</button>
+<div id="chatbotWidget" class="chatbot-widget neu-card">
+    <div class="chatbot-header">
+        <h4>🤖 Digital Farmer Assistant</h4>
+        <div class="chatbot-controls">
+            <button class="chatbot-control-btn" onclick="toggleFullscreen()" title="Fullscreen">
+                ⛶
+            </button>
+            <button class="chatbot-toggle" onclick="toggleChatbot()" title="Minimize">
+                −
+            </button>
+        </div>
+    </div>
+    
+    <div id="chatbotMessages" class="chatbot-messages">
+        <!-- Messages will appear here -->
+    </div>
+    
+    <!-- Quick Questions Section -->
+    <div class="quick-questions">
+        <h5>Quick Questions:</h5>
+        <div class="quick-buttons">
+            <button class="quick-btn neu-button" onclick="handleQuickAction('crops')">🌾 Crops</button>
+            <button class="quick-btn neu-button" onclick="handleQuickAction('labor')">👨‍🌾 Labor</button>
+            <button class="quick-btn neu-button" onclick="handleQuickAction('weather')">🌤️ Weather</button>
+            <button class="quick-btn neu-button" onclick="handleQuickAction('schemes')">🏛️ Schemes</button>
+            <button class="quick-btn neu-button" onclick="handleQuickAction('pests')">🐛 Pests</button>
+            <button class="quick-btn neu-button" onclick="handleQuickAction('irrigation')">💧 Irrigation</button>
+        </div>
+    </div>
+    
+    <div class="chatbot-input-container">
+        <div class="chatbot-input-group">
+            <input type="text" id="chatbotInput" class="chatbot-input neu-input" placeholder="Ask about farming..." autocomplete="off">
+            <button class="chatbot-send-btn neu-button" onclick="sendChatMessage()">Send</button>
+        </div>
+    </div>
+</div>
+
+  <!-- Scripts -->
+<!-- Scripts -->
+<script src="./js/weatherService.js"></script>
+<script src="./js/weatherWidget.js"></script>
+<script type="module" src="./js/chatbot.js"></script> <!-- Add this line -->
+<script type="module" src="./js/farmerDashboard.js"></script>
+<script type="module" src="./js/crop-recommendations.js"></script>
+</body>
+</html>
+

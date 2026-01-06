@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌾 AI Crop Recommendations</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <style>
+    /* === GLOBAL STYLES === */
+    body {
+      background: linear-gradient(135deg, #d8f3dc, #b7e4c7);
+      font-family: 'Inter', sans-serif;
+      color: #1b4332;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* === NAVBAR === */
+    .dashboard-nav {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-left: 8px;
+    }
+
+    .nav-actions a, .logout-btn {
+      background: #1b4332;
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .nav-actions a:hover, .logout-btn:hover {
+      background: #40916c;
+      transform: scale(1.03);
+    }
+
+    /* === MAIN CONTENT === */
+    .dashboard-main {
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .actions-container {
+      max-width: 1200px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .actions-container:hover {
+      box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+    }
+
+    /* === FORM INPUT === */
+    .location-input {
+      width: 70%;
+      padding: 0.7rem 1rem;
+      border-radius: 10px;
+      border: 1px solid #95d5b2;
+      outline: none;
+      transition: 0.3s;
+      font-size: 1rem;
+    }
+
+    .location-input:focus {
+      border-color: #1b4332;
+      box-shadow: 0 0 0 3px rgba(72, 180, 97, 0.3);
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #2d6a4f, #40916c);
+      color: white;
+      font-weight: 600;
+      padding: 0.7rem 1.4rem;
+      border-radius: 10px;
+      transition: 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, #1b4332, #2d6a4f);
+    }
+
+    /* === POPULAR LOCATIONS === */
+    .location-chip {
+      background: #95d5b2;
+      color: #1b4332;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      margin: 0.2rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-block;
+    }
+
+    .location-chip:hover {
+      background: #52b788;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    /* === WEATHER SECTION === */
+    .weather-card {
+      margin-top: 2rem;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .current-weather-display {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .weather-main {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .weather-temp {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #2d6a4f;
+    }
+
+    .weather-desc {
+      font-size: 1.2rem;
+      color: #52b788;
+      text-transform: capitalize;
+    }
+
+    .weather-location {
+      font-size: 1rem;
+      color: #666;
+      margin-top: 0.5rem;
+    }
+
+    .weather-details {
+      display: flex;
+      gap: 1rem;
+      flex: 1;
+      flex-wrap: wrap;
+    }
+
+    .weather-detail {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      background: rgba(149, 213, 178, 0.2);
+      border-radius: 10px;
+      flex: 1;
+      min-width: 80px;
+    }
+
+    .detail-label {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 0.3rem;
+    }
+
+    .detail-value {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #1b4332;
+    }
+
+    /* === RECOMMENDATIONS SECTION === */
+    .recommendations-section {
+      margin-top: 2rem;
+      background: transparent;
+      padding: 0;
+    }
+
+    .section-header {
+      background: white;
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .recommendations-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    /* === CROP CARDS === */
+    .crop-card {
+      background: white;
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      border-left: 5px solid #52b788;
+    }
+
+    .crop-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .crop-card.crop-excellent {
+      border-left-color: #2d6a4f;
+      background: linear-gradient(135deg, rgba(45, 106, 79, 0.05), white);
+    }
+
+    .crop-card.crop-good {
+      border-left-color: #52b788;
+      background: linear-gradient(135deg, rgba(82, 183, 136, 0.05), white);
+    }
+
+    .crop-card.crop-moderate {
+      border-left-color: #95d5b2;
+      background: linear-gradient(135deg, rgba(149, 213, 178, 0.05), white);
+    }
+
+    .crop-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .crop-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1b4332;
+      margin: 0;
+    }
+
+    .crop-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-end;
+    }
+
+    .suitability-badge {
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .suitability-badge.excellent {
+      background: #2d6a4f;
+      color: white;
+    }
+
+    .suitability-badge.good {
+      background: #52b788;
+      color: white;
+    }
+
+    .suitability-badge.moderate {
+      background: #95d5b2;
+      color: #1b4332;
+    }
+
+    .confidence-badge {
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #d8f3dc;
+      color: #1b4332;
+    }
+
+    .crop-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .meta-item {
+      padding: 0.4rem 0.8rem;
+      background: rgba(149, 213, 178, 0.2);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #1b4332;
+    }
+
+    .crop-advantages, .crop-considerations, .crop-tips {
+      margin-bottom: 1.2rem;
+    }
+
+    .crop-advantages h5, .crop-considerations h5, .crop-tips h5 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1b4332;
+      margin-bottom: 0.5rem;
+    }
+
+    .crop-advantages ul, .crop-considerations ul, .crop-tips ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .crop-advantages li, .crop-considerations li, .crop-tips li {
+      padding: 0.4rem 0;
+      padding-left: 1.5rem;
+      font-size: 0.9rem;
+      color: #444;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .crop-advantages li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #2d6a4f;
+      font-weight: bold;
+    }
+
+    .crop-considerations li:before {
+      content: "!";
+      position: absolute;
+      left: 0;
+      color: #ff9800;
+      font-weight: bold;
+    }
+
+    .crop-tips li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #52b788;
+      font-weight: bold;
+    }
+
+    /* === WEATHER ANALYSIS & GENERAL TIPS === */
+    .weather-analysis, .general-tips {
+      background: white;
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .weather-analysis h4, .general-tips h4 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1b4332;
+      margin-bottom: 1rem;
+    }
+
+    .weather-analysis p {
+      color: #444;
+      line-height: 1.6;
+    }
+
+    .general-tips ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .general-tips li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      color: #444;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .general-tips li:before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #2d6a4f;
+      font-weight: bold;
+    }
+
+    /* === AI DISCLAIMER === */
+    .ai-disclaimer {
+      background: rgba(255, 193, 7, 0.1);
+      border-left: 4px solid #ffc107;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .ai-disclaimer p {
+      margin: 0;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* === ERROR SECTION === */
+    .error-section {
+      margin-top: 2rem;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    /* === LOADING === */
+    .loading-spinner {
+      border: 5px solid #d8f3dc;
+      border-top: 5px solid #2d6a4f;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* === FADE-IN ANIMATIONS === */
+    .fade-in {
+      animation: fadeIn 0.6s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* === RESPONSIVE DESIGN === */
+    @media (max-width: 768px) {
+      .recommendations-list {
+        grid-template-columns: 1fr;
+      }
+
+      .location-input {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+
+      .current-weather-display {
+        flex-direction: column;
+      }
+
+      .weather-details {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <nav class="dashboard-nav">
+    <div class="flex items-center">
+      <span class="text-2xl">🌾</span>
+      <span class="nav-title">AI Crop Recommendations</span>
+    </div>
+    <div class="nav-actions space-x-3">
+      <a href="farmer-dashboard.html">← Dashboard</a>
+      <button id="logoutBtn" class="logout-btn">Logout</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <section class="actions-container fade-in">
+      <div class="form-header text-center mb-8">
+        <h1 class="text-3xl font-bold mb-2">AI-Powered Crop Recommendations</h1>
+        <p class="text-gray-700">Get smart suggestions based on live weather & seasonal forecasts.</p>
+      </div>
+
+      <!-- Location Input -->
+      <div class="text-center mb-6">
+        <h3 class="font-semibold text-lg mb-1">📍 Enter Your Farm Location</h3>
+        <p class="text-gray-600 mb-3">We'll analyze weather and soil conditions for that region</p>
+        <div class="flex justify-center space-x-3 mb-4">
+          <input type="text" id="farmLocation" placeholder="e.g., Pune, Maharashtra" class="location-input">
+          <button id="getRecommendations" class="primary-btn">Get Recommendations</button>
+        </div>
+        <div class="popular-locations">
+          <span class="font-medium text-gray-700">Popular: </span>
+          <div class="flex justify-center flex-wrap">
+            <span class="location-chip" data-location="Pune">Pune</span>
+            <span class="location-chip" data-location="Nashik">Nashik</span>
+            <span class="location-chip" data-location="Nagpur">Nagpur</span>
+            <span class="location-chip" data-location="Aurangabad">Aurangabad</span>
+            <span class="location-chip" data-location="Kolhapur">Kolhapur</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading Section -->
+      <div id="loadingSection" class="loading-section text-center hidden">
+        <div class="loading-spinner mb-4"></div>
+        <h3 class="font-semibold text-xl mb-2">Analyzing your farm conditions...</h3>
+        <p class="text-gray-600 mb-3">Gathering weather data & consulting AI models</p>
+      </div>
+
+      <!-- Weather Section -->
+      <div id="weatherSection" class="weather-card hidden">
+        <h3 class="font-bold text-lg mb-3">🌤️ Current Weather</h3>
+        <div id="currentWeather" class="text-gray-700"></div>
+      </div>
+
+      <!-- Recommendations Section -->
+      <div id="recommendationsSection" class="recommendations-section hidden">
+        <div class="section-header">
+          <h3 class="font-bold text-2xl mb-2 text-green-900">🌱 Recommended Crops</h3>
+          <p class="text-gray-600">Best suited for your region & climate</p>
+        </div>
+
+        <div id="recommendationsList">
+          <!-- Crop cards will be dynamically inserted here -->
+        </div>
+      </div>
+
+      <!-- Error Section -->
+      <div id="errorSection" class="error-section text-center hidden">
+        <div class="text-4xl mb-2">⚠️</div>
+        <h3 class="font-semibold text-xl mb-2">Couldn't fetch recommendations</h3>
+        <p id="errorMessage" class="text-gray-600 mb-3"></p>
+        <button onclick="retryRecommendations()" class="primary-btn">Try Again</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Scripts -->
+  <script src="./js/weatherService.js"></script>
+  <script type="module" src="./js/crop-recommendations.js"></script>
+  <script type="module" src="./js/farmerDashboard.js"></script>
+</body>
+</html>

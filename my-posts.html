@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Posts - Digital Farmer Assistant</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./css/farmer-dashboard.css">
+</head>
+<body class="bg-green-50 min-h-screen">
+  <!-- Navigation Header -->
+  <nav class="dashboard-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <span class="nav-icon">🚜</span>
+        <span class="nav-title">My Job Posts</span>
+      </div>
+      <div class="nav-actions">
+        <a href="farmer-dashboard.html" class="back-btn">← Back to Dashboard</a>
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <section class="quick-actions">
+      <div class="actions-container">
+        <div class="form-header">
+          <h1 class="section-title">My Job Posts</h1>
+          <p class="section-description">View and manage all your posted jobs</p>
+        </div>
+        
+        <div class="jobs-container" id="jobsContainer">
+          <div class="empty-state">
+            <div class="empty-icon">📋</div>
+            <h3 class="empty-title">Loading Your Posts...</h3>
+            <p class="empty-description">Please wait while we fetch your job posts.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Edit Job Modal -->
+  <div id="editJobModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit Job Post</h2>
+        <span class="close" id="closeEditModal">&times;</span>
+      </div>
+      <form id="editJobForm" class="job-form">
+        <input type="hidden" id="editJobId">
+        
+        <div class="form-grid">
+          <div class="form-group col-span-2">
+            <label for="editJobTitle" class="form-label">Job Title *</label>
+            <input id="editJobTitle" required class="form-input">
+          </div>
+          
+          <div class="form-group">
+            <label for="editJobWages" class="form-label">Daily Wages (₹) *</label>
+            <input id="editJobWages" required type="number" class="form-input">
+          </div>
+          
+          <div class="form-group">
+            <label for="editJobLocation" class="form-label">Farm Location *</label>
+            <input id="editJobLocation" required class="form-input">
+          </div>
+          
+          <div class="form-group">
+            <label for="editJobStart" class="form-label">Start Date</label>
+            <input id="editJobStart" type="date" class="form-input">
+          </div>
+          
+          <div class="form-group">
+            <label for="editJobDuration" class="form-label">Duration (days)</label>
+            <input id="editJobDuration" type="number" class="form-input">
+          </div>
+          
+          <div class="form-group col-span-2">
+            <label for="editJobSkills" class="form-label">Required Skills</label>
+            <input id="editJobSkills" class="form-input">
+          </div>
+          
+          <div class="form-group col-span-2">
+            <label for="editJobDesc" class="form-label">Job Description</label>
+            <textarea id="editJobDesc" rows="4" class="form-textarea"></textarea>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="submit-btn">Update Job</button>
+          <button type="button" class="cancel-btn" id="cancelEdit">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="./js/myPosts.js"></script>
+</body>
+</html>
